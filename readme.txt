@@ -7,7 +7,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Captain Up is a game mechanics and engagement platform for your WordPress blog. Quickly add badges, levels, leaderboards and engagement to your site.
+Captain Up is a game mechanics and engagement platform for your WordPress blog. Quickly add badges, levels and leaderboards to your site.
 
 == Description ==
 
@@ -32,6 +32,7 @@ You will need to associate your WordPress site with a free Captain Up account. I
 - **Tons of Actions** - Players can earn points for visiting your site consistently, for visiting specific pages on your site, for commenting or liking on Facebook or Tweeting about you or even watching videos on your site.
 
 **Contributing Code**
+
 The source code for this plugin is available on [Captain Up's GitHub account](https://github.com/CaptainUp/wordpress-captainup). Pull Requests and issues are welcome.
 
 
