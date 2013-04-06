@@ -1,25 +1,14 @@
-=== Captain Up ===
-Contributors: cptup
-Tags: game-mechanics,captainup,gamification,engagement,comments,widget,plugin,twitter,facebook,google
-Requires at least: 3.0.1
-Tested up to: 3.5.1
-Stable tag: trunk
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+# Captain Up WordPress Plugin
 
-Captain Up is a game mechanics and engagement platform for your WordPress blog. Quickly add badges, levels and leaderboards to your site.
+Captain Up is a game mechanics and engagement platform for your WordPress blog. Quickly add badges, levels, leaderboards and engagement to your site.
 
-== Description ==
+## Features
 
 [Captain Up](http://captainup.com/) is a Game Mechanics and User Engagement platform for your WordPress site. After a quick install your users will be able to connect with Facebook or Twitter, earn points, progress through the levels, achieve badges and compete in leaderboards.
 
 Captain Up helps you engage with your users. You will see more likes, more tweets, more comments and more repeated visits to your site. You can learn more about your users and see who is passionate about your blog and who has the most influence in social networks.
 
 You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
-
-**NEW**: Localization support for English, Hebrew, Italian and Russian. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts.
-
-**Features**:
 
 - **Completely Customizable Experience** - You can create new badges that can be achieved by visiting specific pages or categories on your WordPress site, or for liking your Facebook page. The appearance and conditions of each badge and level is completely customizable.
 
@@ -33,26 +22,12 @@ You will need to associate your WordPress site with a free Captain Up account. I
 
 - **Tons of Actions** - Players can earn points for visiting your site consistently, for visiting specific pages on your site, for commenting or liking on Facebook or Tweeting about you or even watching videos on your site.
 
-**Shortcodes**
 
-You can add the Captain Up leaderboard widget or activity widget inside your posts using a shortcode:
+### Installing the Plugin
 
-* `[captain-leaderboard width="250px" height="400px" title="Leaderboard"]` - adds the leaderboard widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Leaderboard".
+For detailed install instructions with screenshots visit [Captain Up Wordpress Help Center](http://captainup.com/help/wordpress).
 
-* `[captain-activity width="250px" height="400px" title="Activity Feed"]` - adds the activity widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Activity".
-
-* `[captain-sign-up text="Join the Game"]` - adds a link to join the Captain Up game. It will open the sign up modal, incentivizing your users to start playing. By default the text of the link will be "Sign Up Now".
-
-**Contributing Code**
-
-The source code for this plugin is available on [Captain Up's GitHub account](https://github.com/CaptainUp/wordpress-captainup). Pull Requests and issues are welcome.
-
-
-== Installation ==
-
-For detailed install instructions with screenshots visit [Captain Up Wordpress Help Center](http://captainup.com/help/wordpress). 
-
-**Automatic Install through WordPress**:
+###### Automatic Install through WordPress
 
 1. Go to the _Plugins -> Add New_ screen in your WordPress Admin Panel.
 
@@ -60,7 +35,7 @@ For detailed install instructions with screenshots visit [Captain Up Wordpress H
 
 3. Click 'Install Now' and activate the plugin.
 
-**Manual Install through WordPress**:
+###### Manual Install through WordPress
 
 1. Download the Captain Up plugin from the WordPress plugin directory.
 
@@ -70,7 +45,7 @@ For detailed install instructions with screenshots visit [Captain Up Wordpress H
 
 4. Activate the plugin.
 
-**Manual Install with FTP**:
+###### Manual Install with FTP
 
 1. Download the Captain Up plugin from the WordPress plugin directory.
 
@@ -80,7 +55,7 @@ For detailed install instructions with screenshots visit [Captain Up Wordpress H
 
 4. Go to the _Plugins_ tab in your WordPress Admin Panel and activate the plugin.
 
-**After you Activate Captain Up**:
+###### After you Activate Captain Up
 
 1. Go to the new _Captain Up_ tab in your WordPress Admin Panel.
 
@@ -88,34 +63,38 @@ For detailed install instructions with screenshots visit [Captain Up Wordpress H
 
 Check out the [Captain Up Wordpress Help Center](http://captainup.com/help/wordpress) for more information.
 
+## Frequently Asked Questions
 
-== Frequently Asked Questions ==
-
-= Do I need to create an account? =
+###### Do I need to create an account?
 Yes. In order for the plugin to work you need to [sign up to Captain Up](http://captainup.com/). It's completely free.
 
-= Is JavaScript required? =
+###### Is JavaScript required?
 Yes. Captain Up will not work if JavaScript is disabled.
 
-= Does Captain Up work on mobile and tablet versions of my site? =
+###### Does Captain Up work on mobile and tablet versions of my site?
 Not yet. When users visit your site from mobile phones or from tablets Captain Up will not appear.
 
-= I got more Questions! =
+###### I got more Questions!
 
 For more information visit the [Captain Up Wordpress Help Center](http://captainup.com/help/wordpress) or [contact us](mailto:team@captainup.com).
 
+## Shortcodes
 
-== Screenshots ==
+You can add the Captain Up leaderboard widget or activity widget inside your posts using a shortcode:
 
-1. Captain Up Settings Screen
-2. Captain Up on your blog
-3. Checking out a player's profile
-4. Checking out all the badges
+* `[captain-leaderboard width="250px" height="400px" title="Leaderboard"]` - adds the leaderboard widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Leaderboard".
 
+* `[captain-activity width="250px" height="400px" title="Activity Feed"]` - adds the activity widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Activity".
 
-== Changelog ==
+* `[captain-sign-up text="Join the Game"]` - adds a link to join the Captain Up game. It will open the sign up modal, incentivizing your users to start playing. By default the text of the link will be "Sign Up Now".
 
-= 1.1 =
+## Contributing Code
+
+The source code for this plugin is available on [Captain Up's GitHub account](https://github.com/CaptainUp/wordpress-captainup). Pull Requests and issues are welcome.
+
+## Changelog
+
+###### 1.1
 
 * Removed the width option from the widgets
 
@@ -125,6 +104,5 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 
 * Added missing semicolon in the embed script;
 
-= 1.0 =
-
+###### 1.0
 * First Release.

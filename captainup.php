@@ -12,11 +12,23 @@ License: GPL2
 // --------------------------------------------
 
 function cptup_settings() {
+
+	if ( isset($_POST['submit']) ) {
+		update_option('captain-up-enabled', $_POST['captain-up-enabled']);
+		update_option('captain-api-key', $_POST['captain-api-key']);
+		update_option('captain-locale', $_POST['captain-locale']);
+
+		echo "<div id='update' class='updated'><p>Settings updated.</p></div>\n";
+	}
+
 	// See if Captain Up is Enabled
 	$captain_up  = get_option('captain-up-enabled');
 
 	// Get the Captain Up API Key
 	$captain_api = get_option('captain-api-key');
+
+	// Get the Captain Up Locale
+	$captain_locale = get_option('captain-locale');
 
 	$pwd = dirname(__FILE__) . '/'; # Plugin Directory
 
@@ -41,6 +53,19 @@ function cptup_settings() {
 								<div id="cpt-api">
 									<label for="captain-api-key">Your API Key:</label>
 									<input id="captain-api-key" name="captain-api-key" type="text" size="50" value="<?php echo $captain_api; ?>"/>
+								</div>
+
+								<div id="cpt-language">
+									<label for="captain-language">Language:</label>
+									<select id='captain-locale' name='captain-locale'>
+										<option value='en'>English</option>
+										<option value='he' <?php if ($captain_locale == 'he') echo 'selected';?>>Hebrew</option>
+										<option value='it' <?php if ($captain_locale == 'it') echo 'selected';?>>Italian</option>
+										<option value='ru' <?php if ($captain_locale == 'ru') echo 'selected';?>>Russian</option>
+									</select>
+								</div>
+
+								<div id='cpt-submit'>
 									<input type="submit" class="cpt-x-btn cpt-btn-success padded" name="submit" value="Save" />
 								</div>
 
@@ -78,12 +103,6 @@ function cptup_settings() {
 	</div>
 
 	<?php
-	if ( isset($_POST['submit']) ) {
-		update_option('captain-up-enabled', $_POST['captain-up-enabled']);
-		update_option('captain-api-key', $_POST['captain-api-key']);
-
-		echo "<div id='update' class='updated'><p>Settings updated.</p></div>\n";
-	}
 } 
 
 /* Add Admin Panel CSS and JS Files
@@ -128,22 +147,30 @@ function cptup_print() {
 }
 
 // cptup_start() adds the Captain Up script
-// asynchronously to the footer.
+// asynchronously to the footer. It's only
+// called from cptup_print if the API Key was
+// set.
 function cptup_start() {
+	// Grab a reference to the API Key
 	$captain_api = get_option('captain-api-key');
+
+	// Add a language suffix to the Embed Script, if the
+	// captain-locale was not set it will return 'en'.
+	$lang = "." . get_option('captain-locale', 'en');
+
 	?>
 
 	<div id='cptup-ready'></div> 
 	<script type='text/javascript'>
 	  (function() {
 	      var cpt = document.createElement('script'); cpt.type = 'text/javascript'; cpt.async = true;
-	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://captainup.com/assets/embed.js';
+	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://captainup.com/assets/embed<?php echo $lang; ?>.js';
 	      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(cpt);
 	   })();
 	</script>
 
 	<script type='text/javascript'>
-	  window.captain = {up: function(fn) { captain.topics.push(fn) }, topics: []}
+	  window.captain = {up: function(fn) { captain.topics.push(fn) }, topics: []};
 	  captain.up({
 	      api_key: '<?php echo $captain_api; ?>'
 	  });
@@ -181,13 +208,12 @@ class Captainup_Widget extends WP_Widget {
 	function widget($args, $instance) {
 		extract($args);
 		$type = $instance['type'];
-		$width = $instance['width'];
 		$height = $instance['height'];
 		
 		echo $before_widget;
 		?>
 
-		<div class='captain-<?php echo $type; ?>-widget' style='width:<?php echo $width; ?>px;height:<?php echo $height; ?>px; display:none;'>
+		<div class='captain-<?php echo $type; ?>-widget' style='width: auto; height: <?php echo $height; ?>px; display: none;'>
 		</div>
 		
 		<?php 
@@ -199,7 +225,6 @@ class Captainup_Widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['type']   = strip_tags($new_instance['type']);
 		$instance['css']    = strip_tags($new_instance['css']);
-		$instance['width']  = strip_tags($new_instance['width']);
 		$instance['height'] = strip_tags($new_instance['height']);
 		return $instance;
 	}
@@ -208,12 +233,10 @@ class Captainup_Widget extends WP_Widget {
 	function form( $instance ) {
 		$type   = esc_attr($instance['type']);
 		$css    = esc_attr($instance['css']);
-		$width  = esc_attr($instance['width']);
 		$height = esc_attr($instance['height']);
 
 		if (!$type) $type = 'leaderboard';
 		if (!$css) $css = 'height: 300px; margin-top: 20px;';
-		if (!$width) $width = '250';
 		if (!$height) $height = '350';
 		
 		?>
@@ -231,13 +254,6 @@ class Captainup_Widget extends WP_Widget {
 				</option>			
 			</select>
 		</p>
-		
-		<p>
-			<label for="<?php echo $this->get_field_id('width'); ?>">
-				<?php _e('Width:'); ?>
-			</label> 
-			<input size="4" id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>" type="text" value="<?php echo $width; ?>" />px
-		</p>
 
 		<p>
 			<label for="<?php echo $this->get_field_id('height'); ?>">
@@ -252,6 +268,62 @@ class Captainup_Widget extends WP_Widget {
 
 // Initialize the Widget
 add_action('widgets_init', create_function('', 'register_widget("CaptainUp_Widget");') );
+
+
+/* Shortcodes
+ * -----------------------------------*/
+
+// Leaderboard Widget Shortcode
+// [captain-leaderboard width="300" height="400" title="Hello"]
+// Options:
+// - width - css attribute. by default 300px
+// - height - css attribute. by default 500px
+// - title - the title of the widget, by default 'Leaderboard'
+//           in the current locale language
+function captain_leaderboard_shortcode($atts) {
+	extract(shortcode_atts(
+		array(
+			'width' => '300px',
+			'height' => '500px',
+			'title' => false
+		), $atts
+	));
+	return "<div style='margin: 20px auto; width: $width; height: $height;' class='captain-leaderboard-widget' data-cpt-title='$title'></div>";
+}
+add_shortcode('captain-leaderboard', 'captain_leaderboard_shortcode' );
+
+// Activity Widget Shortcode
+// [captain-activitiy width="500" height="400" title="Hello"]
+// Options:
+// - width - css attribute. by default 300px
+// - height - css attribute. by default 500px
+// - title - the title of the widget, by default 'Activities'
+//           in the current locale language
+function captain_activity_shortcode($atts) {
+	extract(shortcode_atts(
+		array(
+			'width' => '300px',
+			'height' => '500px',
+			'title' => false
+		), $atts
+	));
+	return "<div style='margin: 20px auto; width: $width; height: $height;' class='captain-activity-widget' data-cpt-title='$title'></div>";
+}
+add_shortcode('captain-activity', 'captain_activity_shortcode' );
+
+// Sign Up Link Shortcode
+// [captain-sign-up text="Hello"]
+// Options:
+// - text - the text of the link, by default "Sign Up Now"
+function captain_sign_up_link_shortcode($atts) {
+	extract(shortcode_atts(
+		array(
+			'text' => 'Sign Up Now',
+		), $atts
+	));
+	return "<a style='cursor: pointer' class='captain-sign-up-link'>$text</a>";
+}
+add_shortcode('captain-sign-up', 'captain_sign_up_link_shortcode' );
 
 
 ?>
