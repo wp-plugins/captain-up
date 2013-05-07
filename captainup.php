@@ -3,7 +3,7 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 1.1
+Version: 1.2
 Author: Captain Up Team
 License: GPL2
 */
@@ -55,13 +55,40 @@ function cptup_settings() {
 									<input id="captain-api-key" name="captain-api-key" type="text" size="50" value="<?php echo $captain_api; ?>"/>
 								</div>
 
+								<script src='http://captainup.com/assets/web-available-languages.js'></script>
+
+								<script>
+									// Add all the language options, the web-available-languages
+									// script loaded them into __cpt_available_languages.
+									(function($) {
+										// grab the selected language, default to english
+										var selected_language = "<?php echo get_option('captain-locale', 'en'); ?>";
+										$(function() {
+											// Grab the language <select> options and empty it
+											var $select = $('select#captain-locale').empty();
+											// Run on all the languages
+											for (code in __cpt_available_languages) {
+												var lang = __cpt_available_languages[code];
+												// Add an option for each language, its value
+												// is the key of __cpt_available languages and
+												// its text is the value of it.
+												var $option = "<option value='" + code + "'";
+												// Add a 'selected' attribute if needed
+												if (selected_language === code) {
+													$option += " selected";
+												}
+												$option += ">" + lang + "</option>";
+												// Append it to the select box
+												$select.append($option);
+											}
+										});
+									})(jQuery);
+								</script>
+
 								<div id="cpt-language">
 									<label for="captain-language">Language:</label>
 									<select id='captain-locale' name='captain-locale'>
 										<option value='en'>English</option>
-										<option value='he' <?php if ($captain_locale == 'he') echo 'selected';?>>Hebrew</option>
-										<option value='it' <?php if ($captain_locale == 'it') echo 'selected';?>>Italian</option>
-										<option value='ru' <?php if ($captain_locale == 'ru') echo 'selected';?>>Russian</option>
 									</select>
 								</div>
 
@@ -162,18 +189,17 @@ function cptup_start() {
 
 	<div id='cptup-ready'></div> 
 	<script type='text/javascript'>
+	  window.captain = {up: function(fn) { captain.topics.push(fn) }, topics: []};
+	  captain.up({
+	      api_key: '<?php echo $captain_api; ?>'
+	  });
+	</script>
+	<script type='text/javascript'>
 	  (function() {
 	      var cpt = document.createElement('script'); cpt.type = 'text/javascript'; cpt.async = true;
 	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://captainup.com/assets/embed<?php echo $lang; ?>.js';
 	      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(cpt);
 	   })();
-	</script>
-
-	<script type='text/javascript'>
-	  window.captain = {up: function(fn) { captain.topics.push(fn) }, topics: []};
-	  captain.up({
-	      api_key: '<?php echo $captain_api; ?>'
-	  });
 	</script>
 
 	<?php

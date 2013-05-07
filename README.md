@@ -94,6 +94,14 @@ The source code for this plugin is available on [Captain Up's GitHub account](ht
 
 ## Changelog
 
+###### 1.2
+
+* Fixed a caching bug with Internet Explorer 10
+
+* We no longer to release new WordPress versions for additional languages
+
+* Added French, German, Portuguese (Brazil) and Thai support.
+
 ###### 1.1
 
 * Removed the width option from the widgets

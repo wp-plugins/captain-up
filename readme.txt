@@ -17,7 +17,7 @@ Captain Up helps you engage with your users. You will see more likes, more tweet
 
 You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
 
-**NEW**: Localization support for English, Hebrew, Italian and Russian. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts.
+**NEW**: Localization support for French, German, Portuguese and Thai. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts.
 
 **Features**:
 
@@ -114,6 +114,14 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 
 
 == Changelog ==
+
+= 1.2 =
+
+* Fixed a caching bug with Internet Explorer 10
+
+* We no longer to release new WordPress versions for additional languages
+
+* Added French, German, Portuguese (Brazil) and Thai support.
 
 = 1.1 =
 

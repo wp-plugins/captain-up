@@ -86,7 +86,7 @@
 	padding-bottom:30px;
 }
 
-#cpt-wrap #cpt-api label {
+#cpt-wrap label {
 	font-size: 18px;
 	line-height: 40px;
 	font-weight: 200;
@@ -96,13 +96,26 @@
 }
 
 #cpt-wrap #cpt-api input[type="text"] {
-	font-size: 15px;
+	font-size: 16px;
 	padding: 5px 10px;
 	height: 35px;
 	width: 350px;
 	vertical-align: middle;
 	margin-right: 5px;
 }
+
+#cpt-wrap select {
+	margin-left: 25px;
+	width: 350px;
+	font-size: 16px;
+}
+
+#cpt-wrap #cpt-submit {
+	position: absolute;
+	bottom: 110px;
+	right: 50px;
+}
+
 
 
 /* Captain Up Buttons
@@ -120,12 +133,12 @@
   -moz-box-shadow: #f08a87 0px 2px 0px 0px inset;
   box-shadow: #f08a87 0px 2px 0px 0px inset;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 22px;
   vertical-align: middle;
 }
 
 .cpt-x-btn.padded {
-  padding: 6px 20px;
+  padding: 9px 20px;
 }
 
 .cpt-x-btn.red {
