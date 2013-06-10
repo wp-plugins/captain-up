@@ -94,6 +94,14 @@ The source code for this plugin is available on [Captain Up's GitHub account](ht
 
 ## Changelog
 
+###### 1.3
+
+* Beta: Added an option to add the API Secret in the Captain Up tab. This can be used by advanced users to connect user IDs between the Captain Up platform and your site for more customized user profiles.
+
+* Fixed redirect after submitting the settings form in the admin panel.
+
+* Added support for WordPress comments. Users can now be rewarded with points and badges for commenting with the native WordPress comments along with Disqus and Facebook comments.
+
 ###### 1.2
 
 * Fixed a caching bug with Internet Explorer 10

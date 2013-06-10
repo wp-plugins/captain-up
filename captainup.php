@@ -3,7 +3,7 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 1.2
+Version: 1.3
 Author: Captain Up Team
 License: GPL2
 */
@@ -13,19 +13,34 @@ License: GPL2
 
 function cptup_settings() {
 
-	if ( isset($_POST['submit']) ) {
-		update_option('captain-up-enabled', $_POST['captain-up-enabled']);
+	if (isset($_POST['submit'])) {
+		// Save the Captain Up options on POST
 		update_option('captain-api-key', $_POST['captain-api-key']);
+		update_option('captain-api-secret', $_POST['captain-api-secret']);
 		update_option('captain-locale', $_POST['captain-locale']);
 
+		// We're using JavaScript to redirect back to the page as a GET
+		// request. The reason we do that in JS instead of PHP is that
+		// the headers were already sent. This is a hack, like everything
+		// in WordPress.
+		?>
+			<script>
+				var url = location.href;
+				url +=  ~url.indexOf('submitted=true') ? '' : '&submitted=true';
+				location.replace(url);
+			</script>
+		<?php
+	}
+
+	if(isset($_GET['submitted'])) {
 		echo "<div id='update' class='updated'><p>Settings updated.</p></div>\n";
 	}
 
-	// See if Captain Up is Enabled
-	$captain_up  = get_option('captain-up-enabled');
-
 	// Get the Captain Up API Key
-	$captain_api = get_option('captain-api-key');
+	$captain_api_key = get_option('captain-api-key');
+
+	// Get the Captain Up API Secret
+	$captain_api_secret = get_option('captain-api-secret');
 
 	// Get the Captain Up Locale
 	$captain_locale = get_option('captain-locale');
@@ -48,11 +63,11 @@ function cptup_settings() {
 							<div class="inside">
 								<h2>Configure Captain Up</h2>
 
-								<p>Copy your API key from the <a href='http://captainup.com/manage#settings' target='_blank'>Settings tab</a> in your Captain Up Admin Panel and paste it here. You need to <a href='http://captainup.com/users/sign_up' target='_blank'>Sign Up</a> if you don't have a Captain Up account.
+								<p>Copy your API key from the <a href='http://captainup.com/manage#settings' target='_blank'>Settings tab</a> in your Captain Up admin panel and paste it here. You need to <a href='http://captainup.com/users/sign_up' target='_blank'>Sign Up</a> if you don't have a Captain Up account.</p>
 
-								<div id="cpt-api">
-									<label for="captain-api-key">Your API Key:</label>
-									<input id="captain-api-key" name="captain-api-key" type="text" size="50" value="<?php echo $captain_api; ?>"/>
+								<div id='cpt-api'>
+									<label for='captain-api-key'>Your API Key:</label>
+									<input id='captain-api-key' name='captain-api-key' type='text' size='50' value='<?php echo $captain_api_key; ?>' />
 								</div>
 
 								<script src='http://captainup.com/assets/web-available-languages.js'></script>
@@ -96,30 +111,44 @@ function cptup_settings() {
 									<input type="submit" class="cpt-x-btn cpt-btn-success padded" name="submit" value="Save" />
 								</div>
 
-								<hr/>
+								<hr />
 
-								<h2>Quick Links and Support</h2>
-								<div id='cpt-footer'>
-									<a href='http://captainup.com/manage' target='_blank'>Dashboard</a>
-									<span class='cpt-sep'>|</span>
+								<h2>Advanced Options</h2>
+								<p>You will need to add your API Secret to enable advanced options. Copy the API Secret from the <a href='http://captainup.com/manage#settings' target='_blank'>Settings tab</a> in your Captain Up admin panel and paste it here.
+								<div id='cpt-secret'>
+									<label for='captain-api-secret'>API Secret:</label>
+									<input id='captain-api-secret' name='captain-api-secret' type='text' size='50' value='<?php echo $captain_api_secret; ?>' />
+								</div>
 
-									<a href='http://captainup.com/help' target='_blank'>Help & Support</a>
-									<span class='cpt-sep'>|</span>
-									
-									<a href='http://captainup.com/manage#badges' target='_blank'>Edit Badges</a>
-									<span class='cpt-sep'>|</span>
+								<div id='cpt-submit'>
+									<input type="submit" class="cpt-x-btn cpt-btn-success padded" name="submit" value="Save" />
+								</div>
 
-									<a href='http://captainup.com/manage#levels' target='_blank'>Edit Levels</a>
-									<span class='cpt-sep'>|</span>
+								<hr />
 
-									<a href='http://captainup.com/blog' target='_blank'>Blog</a>
-									<span class='cpt-sep'>|</span>
+								<div id='cpt-quick-links'>
+									<h2>Quick Links and Support</h2>
+									<div id='cpt-footer'>
+										<a href='http://captainup.com/manage' target='_blank'>Dashboard</a>
+										<span class='cpt-sep'>|</span>
 
-									<a href='http://twitter.com/cptup' target='_blank'>Twitter</a>
-									<span class='cpt-sep'>|</span>
+										<a href='http://captainup.com/help' target='_blank'>Help & Support</a>
+										<span class='cpt-sep'>|</span>
+										
+										<a href='http://captainup.com/manage#badges' target='_blank'>Edit Badges</a>
+										<span class='cpt-sep'>|</span>
 
-									<a href='mailto:team@captainup.com' target='_blank'>Contact Us</a>
+										<a href='http://captainup.com/manage#levels' target='_blank'>Edit Levels</a>
+										<span class='cpt-sep'>|</span>
 
+										<a href='http://captainup.com/blog' target='_blank'>Blog</a>
+										<span class='cpt-sep'>|</span>
+
+										<a href='http://twitter.com/cptup' target='_blank'>Twitter</a>
+										<span class='cpt-sep'>|</span>
+
+										<a href='mailto:team@captainup.com' target='_blank'>Contact Us</a>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -178,12 +207,34 @@ function cptup_print() {
 // called from cptup_print if the API Key was
 // set.
 function cptup_start() {
-	// Grab a reference to the API Key
-	$captain_api = get_option('captain-api-key');
+	// Grab a reference to the API Key and Secret
+	$captain_api_key = get_option('captain-api-key');
+	$api_secret = get_option('captain-api-secret', false);
+
+	// Check if the API secret is valid - 64 hexadecimal characters
+	$valid_api_secret = preg_match("/^[0-9A-Fa-f]{64,64}$/", $api_secret) == 1;
 
 	// Add a language suffix to the Embed Script, if the
 	// captain-locale was not set it will return 'en'.
 	$lang = "." . get_option('captain-locale', 'en');
+
+	// Grab the current user ID
+	$current_user_id = get_current_user_id();
+
+	// Only hash the user id if the user is signed in and the api secret
+	// is valid. Otherwise we want need it and won't add it to the script
+	// configuration options below.
+	if ($current_user_id != 0 && $valid_api_secret) {
+		// Hash the WordPress User ID with with the API Secret using SHA512
+		// We need this to connect WordPress user IDs and Captain Up IDs. The
+		// $hashed_user_id makes sure the user_id is not being tampered on
+		// the client side.
+		$hashed_user_id = hash_hmac('sha512', $current_user_id, $api_secret);
+		// Encode it as Base64
+		$hashed_user_id = base64_encode($hashed_user_id);
+		// remove new lines and and the '=' part at the end.
+		$hashed_user_id = preg_replace('/(\n|=+\n?$)/', '', $hashed_user_id);
+	}
 
 	?>
 
@@ -191,13 +242,20 @@ function cptup_start() {
 	<script type='text/javascript'>
 	  window.captain = {up: function(fn) { captain.topics.push(fn) }, topics: []};
 	  captain.up({
-	      api_key: '<?php echo $captain_api; ?>'
+			api_key: '<?php echo $captain_api_key; ?>',
+			platform: 'wordpress',
+			app: {
+				<?php if($current_user_id != 0 && $valid_api_secret) { ?>
+				user_id: '<?php echo $current_user_id; ?>',
+				hashed_user_id: '<?php echo $hashed_user_id; ?>'
+				<?php } ?>
+			}
 	  });
 	</script>
 	<script type='text/javascript'>
 	  (function() {
 	      var cpt = document.createElement('script'); cpt.type = 'text/javascript'; cpt.async = true;
-	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://captainup.com/assets/embed<?php echo $lang; ?>.js';
+	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://local.host/assets/embed<?php echo $lang; ?>.js';
 	      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(cpt);
 	   })();
 	</script>
@@ -351,5 +409,63 @@ function captain_sign_up_link_shortcode($atts) {
 }
 add_shortcode('captain-sign-up', 'captain_sign_up_link_shortcode' );
 
+
+/* WordPress Comments Integration
+ * ----------------------------------------------------------------*/
+// The flow for detecting a new wordpress comment and sending
+// to Captain Up goes like this: First, we add an action hook to
+// `comment_post` that notifies us when comments are saved to the
+// database. Then, if the comment was approved, we create a cookie
+// called `wp_cpt_new_comment`. We do this since after a comment
+// is POSTed wordpress redirects back to the post. It's like a bad
+// man's flash messaging. We check if this cookie exists on every
+// request. If it does, we remove it, hook to the <head> element
+// and add a JavaScript variable there called `_cpt_wordpress_events`
+// that stores the new comment event. The Captain Up embed code
+// does the rest of the work.
+//
+// NOTE: This process -will- change and will be moved to a server-side
+// flow.
+
+// Setup a hook to get a notification after a new comment has been posted.
+add_action('comment_post', 'captain_mark_new_comment', 10, 2);
+
+// `captain_mark_new_comment` is called from the `comment_post` wordpress
+// hook. It receives $comment_id and the $approval status of the comment,
+// and stores a cookie telling us in the follow up request (after the
+// redirection) that a comment was created.
+function captain_mark_new_comment($comment_id, $approval) {
+	// $approval can either be 'spam', 0 for disapproved or 1 for approved.
+	// We give points for approved and disapproved (held for moderation)
+	// comments but not for spam.
+	if ($approval == 1 || $approval == 0) {
+		// we need to mark this in a cookie since wordpress has no built-in
+		// session or flash support and after a comment is posted wordpress
+		// redirects the user.
+		setcookie("wp_cpt_new_comment", $comment_id, time() + 3600, COOKIEPATH, COOKIE_DOMAIN);
+	}
+}
+
+// `captain_add_new_comment` adds a new JS snippet to the page with
+// the `_cpt_wordpress_events` variable. The Captain Up embed picks
+// this up later and then syncs the new comment action to our servers.
+function captain_add_new_comment() {
+	?>
+	<script type='text/javascript'>
+		window._cpt_wordpress_events = {
+			new_comment: true
+		};
+	</script>
+	<?php
+}
+
+// On every request, check if the new comment cookie is set
+if (isset($_COOKIE['wp_cpt_new_comment'])) {
+	// Clean the Cookie
+	setcookie("wp_cpt_new_comment", "", time() - 3600, COOKIEPATH, COOKIE_DOMAIN);
+	// hook into the <head> of the page to insert our JS snippet
+	// that tells the Captain Up embed a new comment was created.
+	add_action('wp_head', 'captain_add_new_comment');
+}
 
 ?>
