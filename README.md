@@ -94,6 +94,10 @@ The source code for this plugin is available on [Captain Up's GitHub account](ht
 
 ## Changelog
 
+###### 1.3.1
+
+* Hotfix: cleared a reference to a development version of Captain Up.
+
 ###### 1.3
 
 * Beta: Added an option to add the API Secret in the Captain Up tab. This can be used by advanced users to connect user IDs between the Captain Up platform and your site for more customized user profiles.
