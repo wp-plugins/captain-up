@@ -255,7 +255,7 @@ function cptup_start() {
 	<script type='text/javascript'>
 	  (function() {
 	      var cpt = document.createElement('script'); cpt.type = 'text/javascript'; cpt.async = true;
-	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://local.host/assets/embed<?php echo $lang; ?>.js';
+	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://captainup.com/assets/embed<?php echo $lang; ?>.js';
 	      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(cpt);
 	   })();
 	</script>
