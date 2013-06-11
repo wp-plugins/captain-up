@@ -7,17 +7,17 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Captain Up is a game mechanics and engagement platform for your WordPress blog. Quickly add badges, levels and leaderboards to your site.
+Captain Up is an engagement platform for your WordPress blog. Quickly add badges, levels and leaderboards to your site and start rewarding your users.
 
 == Description ==
 
-[Captain Up](http://captainup.com/) is a Game Mechanics and User Engagement platform for your WordPress site. After a quick install your users will be able to connect with Facebook or Twitter, earn points, progress through the levels, achieve badges and compete in leaderboards.
+[Captain Up](http://captainup.com/) is a User Engagement platform for your WordPress site. After a quick install your users will be able to connect with Facebook or Twitter, earn points, progress through the levels, achieve badges and compete in leaderboards.
 
 Captain Up helps you engage with your users. You will see more likes, more tweets, more comments and more repeated visits to your site. You can learn more about your users and see who is passionate about your blog and who has the most influence in social networks.
 
 You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
 
-**NEW**: Localization support for French, German, Portuguese and Thai. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts.
+**NEW**: Localization support for French, German, Portuguese and Thai. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts. Support for native WordPress comments.
 
 **Features**:
 
