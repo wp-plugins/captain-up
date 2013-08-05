@@ -3,7 +3,7 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 1.3.1
+Version: 1.4.0
 Author: Captain Up Team
 License: GPL2
 */
@@ -239,7 +239,7 @@ function cptup_start() {
 	?>
 
 	<div id='cptup-ready'></div> 
-	<script type='text/javascript'>
+	<script data-cfasync='false' type='text/javascript'>
 	  window.captain = {up: function(fn) { captain.topics.push(fn) }, topics: []};
 	  captain.up({
 			api_key: '<?php echo $captain_api_key; ?>',
@@ -252,7 +252,7 @@ function cptup_start() {
 			}
 	  });
 	</script>
-	<script type='text/javascript'>
+	<script data-cfasync='false' type='text/javascript'>
 	  (function() {
 	      var cpt = document.createElement('script'); cpt.type = 'text/javascript'; cpt.async = true;
 	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://captainup.com/assets/embed<?php echo $lang; ?>.js';
@@ -273,17 +273,23 @@ if(!is_admin()) {
 /* Widgets
  * ---------------------------------------*/
 
-/*
-Plugin Name: Captain Up Widget
-Plugin URI: http://captainup.com/
-Description: Captain Up Widget - Leaderboards and Activity Feed
-Version: 1.0
-*/
+// Enqueue scripts to handle editing the Widgets options in
+# the widgets admin panel tab.
+function widgets_edit_script() {
+		wp_enqueue_script(
+			'cptup_widgets_edit',
+			plugins_url('/js/cptup_widgets_edit.js', __FILE__),
+			array('jquery')
+		);
+}
+add_action('widgets_init', 'widgets_edit_script');
+
+
 class Captainup_Widget extends WP_Widget {
 
 	/** constructor */
 	function __construct() {
-		parent::WP_Widget('cptup_widget', 'Captainup Widget', array(
+		parent::WP_Widget('cptup_widget', 'Captain Up Widget', array(
 			'description' => 'Captain Up Leaderboards and Recent Activity'
 		));
 	}
@@ -293,11 +299,12 @@ class Captainup_Widget extends WP_Widget {
 		extract($args);
 		$type = $instance['type'];
 		$height = $instance['height'];
+		$default_leaderboard = $instance['default_leaderboard'];
 		
 		echo $before_widget;
 		?>
 
-		<div class='captain-<?php echo $type; ?>-widget' style='width: auto; height: <?php echo $height; ?>px; display: none;'>
+		<div class='captain-<?php echo $type; ?>-widget' <?php if($type=='leaderboard') echo 'data-cpt-leaderboard='.$default_leaderboard ?> style='width: auto; height: <?php echo $height; ?>px; display: none;'>
 		</div>
 		
 		<?php 
@@ -310,6 +317,7 @@ class Captainup_Widget extends WP_Widget {
 		$instance['type']   = strip_tags($new_instance['type']);
 		$instance['css']    = strip_tags($new_instance['css']);
 		$instance['height'] = strip_tags($new_instance['height']);
+		$instance['default_leaderboard'] = strip_tags($new_instance['default_leaderboard']);
 		return $instance;
 	}
 
@@ -322,6 +330,7 @@ class Captainup_Widget extends WP_Widget {
 		if (!$type) $type = 'leaderboard';
 		if (!$css) $css = 'height: 300px; margin-top: 20px;';
 		if (!$height) $height = '350';
+		if (!$default_leaderboard) $default_leaderboard = 'monthly_ranking';
 		
 		?>
 
@@ -329,7 +338,7 @@ class Captainup_Widget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id('type'); ?>">
 				<?php _e('Widget type'); ?>
 			</label>
-			<select id="<?php echo $this->get_field_id('type'); ?>" name="<?php echo $this->get_field_name('type'); ?>">
+			<select id="<?php echo $this->get_field_id('type'); ?>" class="cpt-widget-type-select" name="<?php echo $this->get_field_name('type'); ?>">
 				<option <?php if($type == "activity") { echo "selected"; }; ?> value="activity">
 					Activity Widget
 				</option>
@@ -345,6 +354,45 @@ class Captainup_Widget extends WP_Widget {
 			</label> 
 			<input size="4" id="<?php echo $this->get_field_id('height'); ?>" name="<?php echo $this->get_field_name('height'); ?>" type="text" value="<?php echo $height; ?>" />px
 		</p>
+
+		<p class='cpt-select-leaderboard-type'>
+			<label for="<?php echo $this->get_field_id('default_leaderboard'); ?>">
+				<?php _e('Default view:') ?>
+			</label>
+
+			<select id="<?php echo $this->get_field_id('default_leaderboard'); ?>" name="<?php echo $this->get_field_name('default_leaderboard'); ?>">
+				
+				<option value="all-time-ranking" <?php if($default_leaderboard == 'all-time-ranking') echo 'selected'?>>
+					All Time
+				</option>
+
+				<option value="monthly-ranking" <?php if($default_leaderboard == 'monthly-ranking') echo 'selected'?>>
+					Monthly
+				</option>
+
+				<option value="weekly-ranking" <?php if($default_leaderboard == 'weekly-ranking') echo 'selected'?>>
+					Weekly
+				</option>
+
+				<option value="daily-ranking" <?php if($default_leaderboard == 'daily-ranking') echo 'selected'?>>
+					Daily
+				</option>
+
+			</select>
+		</p>
+
+		<script>
+			jQuery(function() {
+				// Run over all the Captain Up widgets and call the
+				// `toggle_leaderboard_option` on them. The function is
+				// defined under `cptup_widgets_edit.js`. We call it here as
+				// well as the widget form gets re-rendered every time it is
+				// saved.
+				jQuery('.cpt-widget-type-select').each(function(index, element) {
+					toggle_leaderboard_option(element);
+				});
+			});
+		</script>
 		
 		<?php
 	}
@@ -358,21 +406,24 @@ add_action('widgets_init', create_function('', 'register_widget("CaptainUp_Widge
  * -----------------------------------*/
 
 // Leaderboard Widget Shortcode
-// [captain-leaderboard width="300" height="400" title="Hello"]
+// [captain-leaderboard width="300" height="400" title="Hello" leaderboard="all-time-ranking"]
 // Options:
 // - width - css attribute. by default 300px
 // - height - css attribute. by default 500px
+// - leaderboard - the default ranking view (all time, monthly, weekly, daily),
+//                 by default set to the monthly leaderboard.
 // - title - the title of the widget, by default 'Leaderboard'
-//           in the current locale language
+//           in the current locale language.
 function captain_leaderboard_shortcode($atts) {
 	extract(shortcode_atts(
 		array(
-			'width' => '300px',
-			'height' => '500px',
-			'title' => false
+			'width' => '300',
+			'height' => '500',
+			'title' => false,
+			'leaderboard' => 'monthly-ranking'
 		), $atts
 	));
-	return "<div style='margin: 20px auto; width: $width; height: $height;' class='captain-leaderboard-widget' data-cpt-title='$title'></div>";
+	return "<div style='margin: 20px auto; width: $width"."px; height: $height"."px;' class='captain-leaderboard-widget' data-cpt-leaderboard='" . str_replace("-", "_", $leaderboard) . "' data-cpt-title='$title'></div>";
 }
 add_shortcode('captain-leaderboard', 'captain_leaderboard_shortcode' );
 
@@ -386,12 +437,12 @@ add_shortcode('captain-leaderboard', 'captain_leaderboard_shortcode' );
 function captain_activity_shortcode($atts) {
 	extract(shortcode_atts(
 		array(
-			'width' => '300px',
-			'height' => '500px',
+			'width' => '300',
+			'height' => '500',
 			'title' => false
 		), $atts
 	));
-	return "<div style='margin: 20px auto; width: $width; height: $height;' class='captain-activity-widget' data-cpt-title='$title'></div>";
+	return "<div style='margin: 20px auto; width: $width"."px; height: $height"."px;' class='captain-activity-widget' data-cpt-title='$title'></div>";
 }
 add_shortcode('captain-activity', 'captain_activity_shortcode' );
 
@@ -451,7 +502,7 @@ function captain_mark_new_comment($comment_id, $approval) {
 // this up later and then syncs the new comment action to our servers.
 function captain_add_new_comment() {
 	?>
-	<script type='text/javascript'>
+	<script data-cfasync='false' type='text/javascript'>
 		window._cpt_wordpress_events = {
 			new_comment: true
 		};

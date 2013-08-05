@@ -2,7 +2,7 @@
 Contributors: cptup
 Tags: game-mechanics,captainup,gamification,engagement,comments,widget,plugin,twitter,facebook,google
 Requires at least: 3.0.1
-Tested up to: 3.5.1
+Tested up to: 3.6.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,7 +17,7 @@ Captain Up helps you engage with your users. You will see more likes, more tweet
 
 You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
 
-**NEW**: Localization support for French, German, Portuguese and Thai. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts. Support for native WordPress comments.
+**NEW**: Localization support for over 10 languages. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts. Support for native WordPress comments. Support for differnet default leaderboards. CloudFlare issue resolved.
 
 **Features**:
 
@@ -37,7 +37,7 @@ You will need to associate your WordPress site with a free Captain Up account. I
 
 You can add the Captain Up leaderboard widget or activity widget inside your posts using a shortcode:
 
-* `[captain-leaderboard width="250px" height="400px" title="Leaderboard"]` - adds the leaderboard widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Leaderboard".
+* `[captain-leaderboard width="250px" height="400px" title="Leaderboard" leaderboard="all-time-ranking"]` - adds the leaderboard widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Leaderboard". The leaderboard option selects the default leaderboard to show, can be either one of `"all-time-ranking"`, `"monthly-ranking"`, `"weekly-ranking"` or `"daily-ranking"`.
 
 * `[captain-activity width="250px" height="400px" title="Activity Feed"]` - adds the activity widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Activity".
 
@@ -114,6 +114,14 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 
 
 == Changelog ==
+
+= 1.4.0 =
+
+* Support for WordPress 3.5.2 and 3.6.0
+
+* You can now select the default leaderboard for the Leaderboard widget. There are four options: All Time, Monthly, Weekly and Daily. This can be set in the Widgets tab or inside the Shortcodes.
+
+* Fixed an issue with Cloudflare's Rocket Loader.
 
 = 1.3.1 =
 

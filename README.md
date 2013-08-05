@@ -82,7 +82,7 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 
 You can add the Captain Up leaderboard widget or activity widget inside your posts using a shortcode:
 
-* `[captain-leaderboard width="250px" height="400px" title="Leaderboard"]` - adds the leaderboard widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Leaderboard".
+* `[captain-leaderboard width="250px" height="400px" title="Leaderboard" leaderboard="all-time-ranking"]` - adds the leaderboard widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Leaderboard". The leaderboard option selects the default leaderboard to show, can be either one of `"all-time-ranking"`, `"monthly-ranking"`, `"weekly-ranking"` or `"daily-ranking"`.
 
 * `[captain-activity width="250px" height="400px" title="Activity Feed"]` - adds the activity widget. All attributes are optional. By default the width of the widget will be 300 pixels, the height 400 pixels and the title will be "Activity".
 
@@ -93,6 +93,14 @@ You can add the Captain Up leaderboard widget or activity widget inside your pos
 The source code for this plugin is available on [Captain Up's GitHub account](https://github.com/CaptainUp/wordpress-captainup). Pull Requests and issues are welcome.
 
 ## Changelog
+
+###### 1.4.0
+
+* Support for WordPress 3.5.2 and 3.6.0
+
+* You can now select the default leaderboard for the Leaderboard widget. There are four options: All Time, Monthly, Weekly and Daily. This can be set in the Widgets tab or inside the Shortcodes.
+
+* Fixed an issue with Cloudflare's Rocket Loader.
 
 ###### 1.3.1
 
