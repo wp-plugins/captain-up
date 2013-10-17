@@ -3,7 +3,7 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 1.4.0
+Version: 1.4.1
 Author: Captain Up Team
 License: GPL2
 */
@@ -14,6 +14,15 @@ License: GPL2
 function cptup_settings() {
 
 	if (isset($_POST['submit'])) {
+		
+		// Mark whether this is a new install of Captain Up. We'll
+		// later display different messages based on this.
+		if (get_option('captain-api-key') == "") {
+			update_option('captain-first-install', true);
+		} else {
+			update_option('captain-first-install', false);
+		}
+
 		// Save the Captain Up options on POST
 		update_option('captain-api-key', $_POST['captain-api-key']);
 		update_option('captain-api-secret', $_POST['captain-api-secret']);
@@ -32,10 +41,6 @@ function cptup_settings() {
 		<?php
 	}
 
-	if(isset($_GET['submitted'])) {
-		echo "<div id='update' class='updated'><p>Settings updated.</p></div>\n";
-	}
-
 	// Get the Captain Up API Key
 	$captain_api_key = get_option('captain-api-key');
 
@@ -44,6 +49,27 @@ function cptup_settings() {
 
 	// Get the Captain Up Locale
 	$captain_locale = get_option('captain-locale');
+
+	// Get the first-install status
+	$captain_first_install = get_option('captain-first-install');
+
+	// Add a message to the page, indicating that the form has
+	// been submitted successfully, either (1) For enabling
+	// Captain Up (2) Disabling Captain Up or (3) For changing
+	// the settings.
+	if (isset($_GET['submitted'])) {
+		if ($captain_first_install == true && $captain_api_key != "") {
+			echo "<div id='update' class='updated'><p>Rock on! Captain Up is now available on your site, <a target='_blank' href='".get_home_url()."'>go check it out ⇒</a></p></div>\n";
+		} else if ($captain_api_key == "") {
+			echo "<div id='update' class='updated'>".
+				"<p>Captain Up has been <em>disabled</em>. If any problem ".
+				"occured or you have any questions, ".
+				"<a href='mailto:team@captainup.com'>".
+				"contact our support team</a></p></div>\n";
+		} else {
+			echo "<div id='update' class='updated'><p>Your settings have been updated, <a target='_blank' href='".get_home_url()."'>see how everything looks ⇒</a></p></div>\n";
+		}
+	}
 
 	$pwd = dirname(__FILE__) . '/'; # Plugin Directory
 
@@ -165,9 +191,8 @@ function cptup_settings() {
  * -------------------------------------------*/
 function cptup_settings_files($page) {
 	// I swear to god this is what Wordpress Codex suggests to do
-	if ($page != "toplevel_page_cptup-config-menu") { 
-		return;
-	}
+	if ($page != "toplevel_page_cptup-config-menu") return;
+
 	// Add the scripts
 	wp_enqueue_style('cpt-css');
 	wp_enqueue_script('cpt-js');
@@ -275,14 +300,17 @@ if(!is_admin()) {
 
 // Enqueue scripts to handle editing the Widgets options in
 # the widgets admin panel tab.
-function widgets_edit_script() {
-		wp_enqueue_script(
-			'cptup_widgets_edit',
-			plugins_url('/js/cptup_widgets_edit.js', __FILE__),
-			array('jquery')
-		);
+function widgets_edit_script($hook) {
+	// Only enqueue the script in the widgets tab
+	if('widgets.php' != $hook) return;
+
+	wp_enqueue_script(
+		'cptup_widgets_edit',
+		plugins_url('/js/cptup_widgets_edit.js', __FILE__),
+		array('jquery')
+	);
 }
-add_action('widgets_init', 'widgets_edit_script');
+add_action('admin_enqueue_scripts', 'widgets_edit_script');
 
 
 class Captainup_Widget extends WP_Widget {

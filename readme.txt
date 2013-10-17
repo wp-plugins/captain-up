@@ -2,7 +2,7 @@
 Contributors: cptup
 Tags: game-mechanics,captainup,gamification,engagement,comments,widget,plugin,twitter,facebook,google
 Requires at least: 3.0.1
-Tested up to: 3.6.0
+Tested up to: 3.6.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -114,6 +114,14 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 
 
 == Changelog ==
+
+= 1.4.1 =
+
+* Support for WordPress 3.6.1
+
+* Better indication of a successful install.
+
+* Fixed issue with `cptup_widgets_edit.js`.
 
 = 1.4.0 =
 

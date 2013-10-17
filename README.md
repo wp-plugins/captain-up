@@ -94,6 +94,14 @@ The source code for this plugin is available on [Captain Up's GitHub account](ht
 
 ## Changelog
 
+###### 1.4.1
+
+* Support for WordPress 3.6.1
+
+* Better indication of a successful install.
+
+* Fixed issue with `cptup_widgets_edit.js`.
+
 ###### 1.4.0
 
 * Support for WordPress 3.5.2 and 3.6.0
