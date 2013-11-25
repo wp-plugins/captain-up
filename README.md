@@ -94,6 +94,12 @@ The source code for this plugin is available on [Captain Up's GitHub account](ht
 
 ## Changelog
 
+###### 1.4.2
+
+* Support for WordPress 3.7.1
+
+* Fixed issue with MU installs and language selection.
+
 ###### 1.4.1
 
 * Support for WordPress 3.6.1

@@ -3,7 +3,7 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 1.4.1
+Version: 1.4.2
 Author: Captain Up Team
 License: GPL2
 */
@@ -105,6 +105,11 @@ function cptup_settings() {
 										// grab the selected language, default to english
 										var selected_language = "<?php echo get_option('captain-locale', 'en'); ?>";
 										$(function() {
+											// Break execution if `web-available-languages` failed to
+											// load on the page. In that odd case, only English will
+											// be available for selection.
+											if (! window.__cpt_available_languages) return;
+
 											// Grab the language <select> options and empty it
 											var $select = $('select#captain-locale').empty();
 											// Run on all the languages
@@ -129,7 +134,7 @@ function cptup_settings() {
 								<div id="cpt-language">
 									<label for="captain-language">Language:</label>
 									<select id='captain-locale' name='captain-locale'>
-										<option value='en'>English</option>
+										<option value='en' selected>English</option>
 									</select>
 								</div>
 
@@ -239,9 +244,13 @@ function cptup_start() {
 	// Check if the API secret is valid - 64 hexadecimal characters
 	$valid_api_secret = preg_match("/^[0-9A-Fa-f]{64,64}$/", $api_secret) == 1;
 
-	// Add a language suffix to the Embed Script, if the
-	// captain-locale was not set it will return 'en'.
-	$lang = "." . get_option('captain-locale', 'en');
+	// Add a language suffix to the Embed Script. 
+	// get_option's default parameter only affects values which
+	// were not already set in the database. So if an empty 
+	// string was saved, make sure to handle it gracefully.
+	$current_lang = get_option('captain-locale', 'en');
+	if (empty($current_lang)) $current_lang = 'en';
+	$lang = "." . $current_lang;
 
 	// Grab the current user ID
 	$current_user_id = get_current_user_id();
