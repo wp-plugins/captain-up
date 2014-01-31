@@ -2,7 +2,7 @@
 Contributors: cptup
 Tags: game-mechanics,captainup,gamification,engagement,comments,widget,plugin,twitter,facebook,google
 Requires at least: 3.0.1
-Tested up to: 3.8
+Tested up to: 3.8.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,7 +17,7 @@ Captain Up helps you engage with your users. You will see more likes, more tweet
 
 You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
 
-**NEW**: Two new level and badge sets to select from. Localization support for over 14 languages. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts. Support for native WordPress comments. Support for differnet default leaderboards.
+**NEW**: Support for custom actions. Two new level and badge sets to select from. Localization support for over 14 languages. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts. Support for native WordPress comments.
 
 **Features**:
 
@@ -115,7 +115,16 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 
 == Changelog ==
 
+= 1.4.4 =
+
+* Support for custom actions.
+
+* Updated links to the Captain Up admin panel.
+
+* Support for WordPress 3.8.1
+
 = 1.4.3 =
+
 * Support for WordPress 3.8
 
 = 1.4.2 =

@@ -3,7 +3,7 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 1.4.3
+Version: 1.4.4
 Author: Captain Up Team
 License: GPL2
 */
@@ -145,7 +145,7 @@ function cptup_settings() {
 								<hr />
 
 								<h2>Advanced Options</h2>
-								<p>You will need to add your API Secret to enable advanced options. Copy the API Secret from the <a href='http://captainup.com/manage#settings' target='_blank'>Settings tab</a> in your Captain Up admin panel and paste it here.
+								<p>You will need to add your API Secret to enable advanced options. Copy the API Secret from the <a href='http://captainup.com/manage/settings' target='_blank'>Settings tab</a> in your Captain Up admin panel and paste it here.
 								<div id='cpt-secret'>
 									<label for='captain-api-secret'>API Secret:</label>
 									<input id='captain-api-secret' name='captain-api-secret' type='text' size='50' value='<?php echo $captain_api_secret; ?>' />
@@ -166,10 +166,10 @@ function cptup_settings() {
 										<a href='http://captainup.com/help' target='_blank'>Help & Support</a>
 										<span class='cpt-sep'>|</span>
 										
-										<a href='http://captainup.com/manage#badges' target='_blank'>Edit Badges</a>
+										<a href='http://captainup.com/manage/badges' target='_blank'>Edit Badges</a>
 										<span class='cpt-sep'>|</span>
 
-										<a href='http://captainup.com/manage#levels' target='_blank'>Edit Levels</a>
+										<a href='http://captainup.com/manage/levels' target='_blank'>Edit Levels</a>
 										<span class='cpt-sep'>|</span>
 
 										<a href='http://captainup.com/blog' target='_blank'>Blog</a>
@@ -376,12 +376,14 @@ class Captainup_Widget extends WP_Widget {
 				<?php _e('Widget type'); ?>
 			</label>
 			<select id="<?php echo $this->get_field_id('type'); ?>" class="cpt-widget-type-select" name="<?php echo $this->get_field_name('type'); ?>">
+
 				<option <?php if($type == "activity") { echo "selected"; }; ?> value="activity">
 					Activity Widget
 				</option>
 				<option <?php if($type == "leaderboard") { echo "selected"; }; ?> value="leaderboard">
 					Leaderboard Widget
-				</option>			
+				</option>
+
 			</select>
 		</p>
 

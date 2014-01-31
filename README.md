@@ -94,7 +94,16 @@ The source code for this plugin is available on [Captain Up's GitHub account](ht
 
 ## Changelog
 
+###### 1.4.4
+
+* Support for custom actions.
+
+* Updated links to the Captain Up admin panel.
+
+* Support for WordPress 3.8.1
+
 ###### 1.4.3
+
 * Support for WordPress 3.8
 
 ###### 1.4.2
