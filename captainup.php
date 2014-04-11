@@ -3,7 +3,7 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 1.4.4
+Version: 2.0.0
 Author: Captain Up Team
 License: GPL2
 */
@@ -28,6 +28,33 @@ function cptup_settings() {
 		update_option('captain-api-secret', $_POST['captain-api-secret']);
 		update_option('captain-locale', $_POST['captain-locale']);
 
+		
+		// Only update the disabled paths if they are set, to prevent us from
+		// erasing the data if the input was disabled.
+		if (isset($_POST['captain-disabled-paths'])) {
+			update_option('captain-disabled-paths', $_POST['captain-disabled-paths']);
+		}
+		if (isset($_POST['captain-enabled-paths'])) {
+			update_option('captain-enabled-paths', $_POST['captain-enabled-paths']);
+		}
+
+		// Save the path configuration option, whether we are using a whitelist
+		// or a blacklist for the paths.
+		if (isset($_POST['captain-show-paths-type']) &&
+			$_POST['captain-show-paths-type'] == 'whitelist') {
+			update_option('captain-show-paths-type', 'whitelist');
+		} else {
+			update_option('captain-show-paths-type', 'blacklist');
+		}
+
+		// Whether we should hide Captain Up on the homepage
+		if (isset($_POST['captain-hide-on-homepage-checkbox']) &&
+			$_POST['captain-hide-on-homepage-checkbox'] == 'Yes') {
+			update_option('captain-hide-on-homepage-checkbox', 'checked');
+		} else {
+			update_option('captain-hide-on-homepage-checkbox', '');
+		}
+
 		// We're using JavaScript to redirect back to the page as a GET
 		// request. The reason we do that in JS instead of PHP is that
 		// the headers were already sent. This is a hack, like everything
@@ -46,6 +73,36 @@ function cptup_settings() {
 
 	// Get the Captain Up API Secret
 	$captain_api_secret = get_option('captain-api-secret');
+
+	// Get the status of the radio button that controls whether we show
+	// the blacklist or the whitelist as enabled.
+	if (get_option('captain-show-paths-type') == 'whitelist') {
+		$captain_whitelist_check = 'checked';
+		$captain_blacklist_check = '';
+	} else {
+		$captain_whitelist_check = '';
+		$captain_blacklist_check = 'checked';
+	}
+
+	// get the `hide-on-homepage-checkbox` status
+	$captain_hide_on_homepage = get_option('captain-hide-on-homepage-checkbox');
+
+	// Get the enabled and disabled paths and convert them to a stringified
+	// JSON array, then post them under the `captain` JS namespace.
+	$captain_disabled_paths = get_option('captain-disabled-paths');
+	$captain_disabled_paths = explode(',', $captain_disabled_paths);
+	$captain_disabled_paths = json_encode($captain_disabled_paths);
+	$captain_enabled_paths = get_option('captain-enabled-paths');
+	$captain_enabled_paths = explode(',', $captain_enabled_paths);
+	$captain_enabled_paths = json_encode($captain_enabled_paths);
+
+	?>
+	<script>
+	window.captain = {};
+	window.captain.disabled_paths = <?php echo($captain_disabled_paths); ?>;
+	window.captain.enabled_paths = <?php echo($captain_enabled_paths); ?>;
+	</script>
+	<?php
 
 	// Get the Captain Up Locale
 	$captain_locale = get_option('captain-locale');
@@ -139,7 +196,7 @@ function cptup_settings() {
 								</div>
 
 								<div id='cpt-submit'>
-									<input type="submit" class="cpt-x-btn cpt-btn-success padded" name="submit" value="Save" />
+									<input type="submit" class="cpt-button padded" name="submit" value="Save" />
 								</div>
 
 								<hr />
@@ -152,7 +209,51 @@ function cptup_settings() {
 								</div>
 
 								<div id='cpt-submit'>
-									<input type="submit" class="cpt-x-btn cpt-btn-success padded" name="submit" value="Save" />
+									<input type="submit" class="cpt-button padded" name="submit" value="Save" />
+								</div>
+
+								<hr />
+
+								<h2>Choose on which pages you want Captain Up to appear</h2>
+
+								<p class="captain-hide-on-homepage">
+									<label>
+										<input type="checkbox" name="captain-hide-on-homepage-checkbox" class="captain-hide-on-homepage-checkbox" value='Yes' <?php echo($captain_hide_on_homepage); ?>>
+										Hide Captain Up on your Homepage
+									</label>
+								</p>
+
+								<div class="captain-show-paths-box">
+									<p>
+										<label>
+											<input type="radio" name="captain-show-paths-type" class="captain-show-paths-type" value='blacklist' <?php echo($captain_blacklist_check); ?>>
+											Hide Captain Up on these URLs:
+										</label>
+										<input type='text' name='captain-disabled-paths' id='captain-disabled-paths' class='captain-disabled-paths'>
+										<div class='cpt-help'>
+										Add full links to pages you don't want captain up to show on, e.g. http://mysite.com/some-page <br />
+										Use an asterisk to include subpages, e.g. http://mysite.com/guest-posts/*
+										</div>
+									</p>
+
+									<span class="captain-or-rule">or</span>
+
+									<p>
+										<label>
+											<input type="radio" name="captain-show-paths-type" class="captain-show-paths-type" value='whitelist' <?php echo($captain_whitelist_check); ?>>
+											Show Captain Up only on these URLs:
+										</label><br>
+										<input type='text' name='captain-enabled-paths' id='captain-enabled-paths' class='captain-enabled-paths'>
+										<div class='cpt-help'>
+										Add full links to pages you want captain up to show on, e.g. http://mysite.com/some-page) <br />
+										Use an asterisk to include subpages, e.g. http://mysite.com/guest-posts/*
+										</div>
+									</p>
+								</div>
+
+
+								<div id='cpt-submit'>
+									<input type="submit" class="cpt-button padded" name="submit" value="Save" />
 								</div>
 
 								<hr />
@@ -165,11 +266,14 @@ function cptup_settings() {
 
 										<a href='http://captainup.com/help' target='_blank'>Help & Support</a>
 										<span class='cpt-sep'>|</span>
-										
+
 										<a href='http://captainup.com/manage/badges' target='_blank'>Edit Badges</a>
 										<span class='cpt-sep'>|</span>
 
 										<a href='http://captainup.com/manage/levels' target='_blank'>Edit Levels</a>
+										<span class='cpt-sep'>|</span>
+
+										<a href='http://captainup.com/manage/users' target='_blank'>View Users</a>
 										<span class='cpt-sep'>|</span>
 
 										<a href='http://captainup.com/blog' target='_blank'>Blog</a>
@@ -200,6 +304,7 @@ function cptup_settings_files($page) {
 
 	// Add the scripts
 	wp_enqueue_style('cpt-css');
+	wp_enqueue_script('jquery');
 	wp_enqueue_script('cpt-js');
 }
 
@@ -210,8 +315,8 @@ function cptup_config() {
 	add_menu_page('Captain Up Settings - Game Mechanics', 'Captain Up', 'manage_options', 'cptup-config-menu', 'cptup_settings');
 
 	// Register additional files
-	wp_register_style('cpt-css', plugins_url('captainup.css', __FILE__));
-	wp_register_script('cpt-js', plugins_url('captainup.js', __FILE__));
+	wp_register_style('cpt-css', plugins_url('css/captainup.css', __FILE__));
+	wp_register_script('cpt-js', plugins_url('captainup.js', __FILE__), '', '1.5', true);
 	add_action('admin_enqueue_scripts', 'cptup_settings_files');
 }
 
@@ -274,8 +379,8 @@ function cptup_start() {
 
 	<div id='cptup-ready'></div> 
 	<script data-cfasync='false' type='text/javascript'>
-	  window.captain = {up: function(fn) { captain.topics.push(fn) }, topics: []};
-	  captain.up({
+		window.captain = {up: function(fn) { captain.topics.push(fn) }, topics: []};
+		captain.up({
 			api_key: '<?php echo $captain_api_key; ?>',
 			platform: 'wordpress',
 			app: {
@@ -284,22 +389,73 @@ function cptup_start() {
 				hashed_user_id: '<?php echo $hashed_user_id; ?>'
 				<?php } ?>
 			}
-	  });
+		});
 	</script>
 	<script data-cfasync='false' type='text/javascript'>
-	  (function() {
-	      var cpt = document.createElement('script'); cpt.type = 'text/javascript'; cpt.async = true;
-	      cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://captainup.com/assets/embed<?php echo $lang; ?>.js';
-	      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(cpt);
-	   })();
+		(function() {
+				var cpt = document.createElement('script'); cpt.type = 'text/javascript'; cpt.async = true;
+				cpt.src = 'http' + (location.protocol == 'https:' ? 's' : '') + '://captainup.com/assets/embed<?php echo $lang; ?>.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(cpt);
+		 })();
 	</script>
 
 	<?php
 }
 
-// Add the Captain Up script unless we're inside the
-// admin panel.
-if(!is_admin()) {
+// Given a page path, checks if this page path matched a path
+// the user specified under disabled_paths.
+
+// Given the current `$page_path`, `is_in_path_list` goes over the paths
+// in `$path_list` and determines whether that path is listed there.
+// @param $page_path - {String} the URL to check
+// @param $path_list - {Array} list of URLs to check against
+// @return {Boolean} indicating whether the `$page_path` is on the list.
+function is_in_path_list($page_path, $path_list) {
+
+		foreach ($path_list as $path) {
+				// handle the case where the URI is with the trailing wildcard '*'
+				if (substr($path, -1) === "*") {
+					// check if the current path starts with this path.
+					// substr the disabled path to check without the asterisk *.
+					if (strpos($page_path, substr($path, 0, -1)) === 0) {
+							return true;
+					}
+				} else {
+					// if it's not a wildcard, check if the disabled path is strictly
+					// equal to the current path.
+					if ($page_path === $path) {
+							return true;
+					}
+				}
+		}
+		// if the current path wasn't found in the `$path_list` array,
+		// return false.
+		return false;
+}
+
+
+// Determine whether we should display Captain Up on the page or not, using
+// either the whitelist or the blacklist (whichever is enabled).
+if (get_option('captain-show-paths-type') === 'whitelist') {
+	// Get the enabled paths
+	$enabled_paths = explode(',', get_option('captain-enabled-paths'));
+	// Check if we should display Captain Up on the current page
+	$should_display = is_in_path_list($_SERVER["REQUEST_URI"], $enabled_paths);
+} else {
+	// Get the disabled paths
+	$disabled_paths = explode(',', get_option('captain-disabled-paths'));
+	// If the 'hide on homepage' checkbox was checked, add '/' to
+	// the `disabled_path` array.
+	if (get_option('captain-hide-on-homepage-checkbox') === 'checked') {
+			$disabled_paths[] = '/';
+	}
+	// Check if we should display Captain Up on the current page
+	$should_display = !is_in_path_list($_SERVER["REQUEST_URI"], $disabled_paths);
+}
+
+// Add the Captain Up script unless (1) we're inside the admin panel;
+// (2) the page is on the blacklist (3) the page is not on the whitelist.
+if (!is_admin() && $should_display) {
 	add_action('wp_print_scripts', 'cptup_print');
 }
 

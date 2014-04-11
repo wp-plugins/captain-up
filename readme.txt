@@ -2,7 +2,7 @@
 Contributors: cptup
 Tags: game-mechanics,captainup,gamification,engagement,comments,widget,plugin,twitter,facebook,google
 Requires at least: 3.0.1
-Tested up to: 3.8.1
+Tested up to: 3.8.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,11 +13,11 @@ Captain Up is an engagement platform for your WordPress blog. Quickly add badges
 
 [Captain Up](http://captainup.com/) is a User Engagement platform for your WordPress site. After a quick install your users will be able to connect with Facebook or Twitter, earn points, progress through the levels, achieve badges and compete in leaderboards.
 
-Captain Up helps you engage with your users. You will see more likes, more tweets, more comments and more repeated visits to your site. You can learn more about your users and see who is passionate about your blog and who has the most influence in social networks.
+Captain Up helps you engage with your users. You will see more likes, more tweets, more comments and more repeated visits to your site. You can learn more about your users and see who is passionate about your site and who has the most influence in social networks.
 
 You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
 
-**NEW**: Support for custom actions. Two new level and badge sets to select from. Localization support for over 14 languages. Awesome shortcodes for adding the activity widget, the leaderboard widget and a sign up link inside your posts. Support for native WordPress comments.
+**NEW**: Brand new design. Support for custom actions. Ability to choose on which pages of the site Captain Up will appear on. Two new level and badge sets to select from. Localization support for over 18 languages. Support for native WordPress comments.
 
 **Features**:
 
@@ -107,13 +107,26 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 
 == Screenshots ==
 
-1. Captain Up Settings Screen
-2. Captain Up on your blog
-3. Checking out a player's profile
-4. Checking out all the badges
+1. The Captain Up Settings Screen
+2. Captain Up on your site (The Community Center)
+3. Just received a new level!
+4. The activites tab shows everything users can do on your site
+5. The badges tab displays all the badges, and the user progress through them
+6. The levels tab shows the user progress through the levels
+7. Add leaderboard and activity widget to your site, completely customize the color theme
 
 
 == Changelog ==
+
+= 2.0.0 =
+
+* Brand new design!
+
+* Customize where the Captain Up widget appears on your site, including a new bottom bar widget.
+
+* Configure on which pages of the site Captain Up will appear on using either a blacklist or a whitelist.
+
+* Support for WordPress 3.8.2
 
 = 1.4.4 =
 

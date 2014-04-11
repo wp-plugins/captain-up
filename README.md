@@ -6,7 +6,7 @@ Captain Up is an engagement platform for your WordPress blog. Quickly add badges
 
 [Captain Up](http://captainup.com/) is a User Engagement platform for your WordPress site. After a quick install your users will be able to connect with Facebook or Twitter, earn points, progress through the levels, achieve badges and compete in leaderboards.
 
-Captain Up helps you engage with your users. You will see more likes, more tweets, more comments and more repeated visits to your site. You can learn more about your users and see who is passionate about your blog and who has the most influence in social networks.
+Captain Up helps you engage with your users. You will see more likes, more tweets, more comments and more repeated visits to your site. You can learn more about your users and see who is passionate about your site and who has the most influence in social networks.
 
 You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
 
@@ -93,6 +93,16 @@ You can add the Captain Up leaderboard widget or activity widget inside your pos
 The source code for this plugin is available on [Captain Up's GitHub account](https://github.com/CaptainUp/wordpress-captainup). Pull Requests and issues are welcome.
 
 ## Changelog
+
+###### 2.0.0
+
+* Brand new design!
+
+* Customize where the Captain Up widget appears on your site, including a new bottom bar widget.
+
+* Configure on which pages of the site Captain Up will appear on using either a blacklist or a whitelist.
+
+* Support for WordPress 3.8.2
 
 ###### 1.4.4
 
