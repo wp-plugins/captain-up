@@ -3,7 +3,7 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 2.0.0
+Version: 2.0.1
 Author: Captain Up Team
 License: GPL2
 */

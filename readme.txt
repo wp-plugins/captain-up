@@ -2,7 +2,7 @@
 Contributors: cptup
 Tags: game-mechanics,captainup,gamification,engagement,comments,widget,plugin,twitter,facebook,google
 Requires at least: 3.0.1
-Tested up to: 3.8.2
+Tested up to: 3.9.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -113,10 +113,14 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 4. The activites tab shows everything users can do on your site
 5. The badges tab displays all the badges, and the user progress through them
 6. The levels tab shows the user progress through the levels
-7. Add leaderboard and activity widget to your site, completely customize the color theme
+7. Add leaderboard and activity widgets to your site and completely customize the design and colors
 
 
 == Changelog ==
+
+= 2.0.1 =
+
+* Support for WordPress 3.9.1
 
 = 2.0.0 =
 
