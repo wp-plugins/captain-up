@@ -2,7 +2,7 @@
 Contributors: cptup
 Tags: game-mechanics,captainup,gamification,engagement,comments,widget,plugin,twitter,facebook,google
 Requires at least: 3.0.1
-Tested up to: 3.9.1
+Tested up to: 4.0.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,7 +17,7 @@ Captain Up helps you engage with your users. You will see more likes, more tweet
 
 You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
 
-**NEW**: Brand new design. Support for custom actions. Ability to choose on which pages of the site Captain Up will appear on. Two new level and badge sets to select from. Localization support for over 18 languages. Support for native WordPress comments.
+**NEW**: Support for mobile and tablet devices. A new badge pack to select from. Brand new design. Support for custom actions. Ability to choose on which pages of the site Captain Up will appear on. Localization support for over 18 languages. Support for native WordPress comments.
 
 **Features**:
 
@@ -92,13 +92,16 @@ Check out the [Captain Up Wordpress Help Center](http://captainup.com/help/wordp
 == Frequently Asked Questions ==
 
 = Do I need to create an account? =
+
 Yes. In order for the plugin to work you need to [sign up to Captain Up](http://captainup.com/). It's completely free.
 
 = Is JavaScript required? =
+
 Yes. Captain Up will not work if JavaScript is disabled.
 
 = Does Captain Up work on mobile and tablet versions of my site? =
-Not yet. When users visit your site from mobile phones or from tablets Captain Up will not appear.
+
+Yes. When users visit your site from mobile and tablet devices they will see Captain Up in a in a device-optimized version.
 
 = I got more Questions! =
 
@@ -117,6 +120,13 @@ For more information visit the [Captain Up Wordpress Help Center](http://captain
 
 
 == Changelog ==
+
+= 2.0.2 =
+
+* Support for mobile and tablet devices
+* Support for WordPress 4.0
+* Added an app icon
+* Small code modifications
 
 = 2.0.1 =
 

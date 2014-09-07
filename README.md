@@ -72,7 +72,8 @@ Yes. In order for the plugin to work you need to [sign up to Captain Up](http://
 Yes. Captain Up will not work if JavaScript is disabled.
 
 ###### Does Captain Up work on mobile and tablet versions of my site?
-Not yet. When users visit your site from mobile phones or from tablets Captain Up will not appear.
+
+Yes. When users visit your site from mobile and tablet devices they will see Captain Up in a in a device-optimized version.
 
 ###### I got more Questions!
 
@@ -93,6 +94,13 @@ You can add the Captain Up leaderboard widget or activity widget inside your pos
 The source code for this plugin is available on [Captain Up's GitHub account](https://github.com/CaptainUp/wordpress-captainup). Pull Requests and issues are welcome.
 
 ## Changelog
+
+###### 2.0.2
+
+* Support for mobile and tablet devices
+* Support for WordPress 4.0
+* Added an app icon
+* Small code modifications
 
 ###### 2.0.1
 

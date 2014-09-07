@@ -3,14 +3,13 @@
 Plugin Name: Captain Up 
 Plugin URI: http://www.captainup.com
 Description: Add Game Mechanics to your site and increase your engagement and retention. 2 minutes install: Simply add your free Captain Up API Key and you are good to go. The plugin also adds widgets you can use to show leaderboards and activities within your site.
-Version: 2.0.1
+Version: 2.0.2
 Author: Captain Up Team
 License: GPL2
 */
 
-// Admin menu
-// --------------------------------------------
-
+// WordPress Admin Menu
+// --------------------------------------------------------------------------------
 function cptup_settings() {
 
 	if (isset($_POST['submit'])) {
@@ -120,7 +119,7 @@ function cptup_settings() {
 		} else if ($captain_api_key == "") {
 			echo "<div id='update' class='updated'>".
 				"<p>Captain Up has been <em>disabled</em>. If any problem ".
-				"occured or you have any questions, ".
+				"occurred or you have any questions, ".
 				"<a href='mailto:team@captainup.com'>".
 				"contact our support team</a></p></div>\n";
 		} else {
@@ -296,8 +295,9 @@ function cptup_settings() {
 	<?php
 } 
 
-/* Add Admin Panel CSS and JS Files
- * -------------------------------------------*/
+
+// Add Admin Panel CSS and JS Files
+// ------------------------------------------------------------------------------
 function cptup_settings_files($page) {
 	// I swear to god this is what Wordpress Codex suggests to do
 	if ($page != "toplevel_page_cptup-config-menu") return;
@@ -308,8 +308,8 @@ function cptup_settings_files($page) {
 	wp_enqueue_script('cpt-js');
 }
 
-/* Setup Admin Panel Resources
- * -------------------------------------------*/
+// Setup Admin Panel Resources
+// -------------------------------------------------------------------------------
 function cptup_config() {
 	// Add Captain Up to the Menu
 	add_menu_page('Captain Up Settings - Game Mechanics', 'Captain Up', 'manage_options', 'cptup-config-menu', 'cptup_settings');
@@ -325,8 +325,8 @@ add_action('admin_menu', 'cptup_config');
 
 
 
-/* Add the Captain Up Script to the Site
- * -------------------------------------------*/
+// Add the Captain Up Script to the Site
+// -------------------------------------------------------------------------------
 
 // cptup_print() initializes the Captain Up script,
 // unless the API Key wasn't set yet.
@@ -402,8 +402,6 @@ function cptup_start() {
 	<?php
 }
 
-// Given a page path, checks if this page path matched a path
-// the user specified under disabled_paths.
 
 // Given the current `$page_path`, `is_in_path_list` goes over the paths
 // in `$path_list` and determines whether that path is listed there.
@@ -460,8 +458,8 @@ if (!is_admin() && $should_display) {
 }
 
 
-/* Widgets
- * ---------------------------------------*/
+// Widgets
+// ---------------------------------------------------------------------------
 
 // Enqueue scripts to handle editing the Widgets options in
 # the widgets admin panel tab.
@@ -520,10 +518,10 @@ class Captainup_Widget extends WP_Widget {
 		$css    = esc_attr($instance['css']);
 		$height = esc_attr($instance['height']);
 
-		if (!$type) $type = 'leaderboard';
-		if (!$css) $css = 'height: 300px; margin-top: 20px;';
-		if (!$height) $height = '350';
-		if (!$default_leaderboard) $default_leaderboard = 'monthly_ranking';
+		if (!isset($type)) $type = 'leaderboard';
+		if (!isset($css)) $css = 'height: 300px; margin-top: 20px;';
+		if (!isset($height)) $height = '350';
+		if (!isset($default_leaderboard)) $default_leaderboard = 'monthly_ranking';
 		
 		?>
 
@@ -597,8 +595,8 @@ class Captainup_Widget extends WP_Widget {
 add_action('widgets_init', create_function('', 'register_widget("CaptainUp_Widget");') );
 
 
-/* Shortcodes
- * -----------------------------------*/
+// Shortcodes
+// -------------------------------------------------------------------------------
 
 // Leaderboard Widget Shortcode
 // [captain-leaderboard width="300" height="400" title="Hello" leaderboard="all-time-ranking"]
@@ -656,8 +654,9 @@ function captain_sign_up_link_shortcode($atts) {
 add_shortcode('captain-sign-up', 'captain_sign_up_link_shortcode' );
 
 
-/* WordPress Comments Integration
- * ----------------------------------------------------------------*/
+// WordPress Comments Integration
+// -----------------------------------------------------------------------------
+// 
 // The flow for detecting a new wordpress comment and sending
 // to Captain Up goes like this: First, we add an action hook to
 // `comment_post` that notifies us when comments are saved to the
