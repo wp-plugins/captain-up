@@ -60,7 +60,7 @@
 	// @param selector - {String} - Selector for the input
 	// @param items - {Array} of items to add
 	var add_existing_items = function (selector, items) {
-		// Get the selectize plugin configurations for the element
+		// Get the Selectize plugin configurations for the element
 		var selectize_input = $(selector)[0].selectize
 		for (var i = 0; i < items.length; i++) {
 			// Add the item as a dropdown option, after modifying it to
@@ -71,15 +71,70 @@
 		}
 	}
 
+	// Returns a boolean indicating whether the given `api_secret` is valid. A
+	// valid API Secret is exactly 64 hexadecimal characters. Empty values are
+	// not considered as valid API secrets here.
+	// 
+	// @param api_secret - {String} the API secret of the app
+	// @return {Boolean} whether the received API Secret was valid
+	//
+	var is_valid_api_secret = function (api_secret, options) {
+		// Return true if the API secret is comprised of exactly 64 hexadecimal
+		// characters.
+		return !!api_secret.trim().match(/^[A-Fa-f0-9]{64}$/);
+	}
+
+	// The user integration checkbox is disabled if no valid API secret was
+	// provided. This function updates the user integration checkbox state
+	// based on the API Secret status.
+	var update_user_integration_checkbox = function() {
+		// Retrieve the current API secret value
+		var current_api_secret = $('#captain-api-secret').val();
+		// Check whether we should disable the checkbox
+		var disable_checkbox = !is_valid_api_secret(current_api_secret);
+		// Update the user integration checkbox `disabled` attribute
+		$('.captain-user-integration-checkbox').prop('disabled', disable_checkbox);
+	}
+
 	// Initializes the Captain Up Admin Panel scripts:
-	// 1. Initializes the selectize plugin on the relevant inputs
-	// 2. listen to relevant events
-	// 3. Add server-side data into inputs that require JS assistance
-	// 4. Enable or disable the whitelist / blacklist of paths based
-	//    on the server-side data.
+	// - Checks that a valid API Secret is given
+	// - Check if the `user integration` checkbox should be enabled or disabled
+	// - Initializes the Selectize plugin on the relevant inputs
+	// - Delegate relevant UI events to handlers
+	// - Add server-side data into inputs that require JS assistance
+	// - Enable or disable the whitelist / blacklist of paths based
+	//   on the server-side data.
 	var init_captain_up_admin = function() {
 
-		// Initisalize selectize on the disabled paths input
+		// On form submission, prevent the submission of the form and show an error
+		// if the API Secret is invalid (and not empty).
+		$('#captainup-settings-form').submit(function(e) {
+			// Get a quick reference to the API secret value
+			var api_secret = $('#captain-api-secret').val();
+			// Skip this check if the API secret is empty
+			if (api_secret.trim() === '') return;
+			// Show an error and prevent form submission if the API secret is invalid
+			if (!is_valid_api_secret(api_secret)) {
+				// Prevent form submission
+				e.preventDefault();
+				// Notify the user about the error using an alert dialog
+				alert(
+					"The API secret you provided was malformed. Please visit your Captain " +
+					"Up admin panel to retrieve your API secret. "
+				);
+			}
+		});
+
+		// Enable the user integration checkbox only if the app's API secret was
+		// provided and looks valid. We currently only check the validity of the API
+		// secret against a regular expression. Do this immediately, and on every
+		// key up event in the API secret input. 
+		update_user_integration_checkbox();
+		$('#captain-api-secret').keyup(function() {
+			update_user_integration_checkbox();
+		})
+
+		// Initialize Selectize on the disabled paths input
 		$('.captain-disabled-paths').selectize({
 			plugins: ['remove_button'],
 			delimiter: ',',
@@ -87,7 +142,7 @@
 			create: item_create_uri_handle
 		});
 
-		// Initialize selectize on the enabled paths input
+		// Initialize Selectize on the enabled paths input
 		$('.captain-enabled-paths').selectize({
 			plugins: ['remove_button'],
 			delimiter: ',',

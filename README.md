@@ -2,30 +2,43 @@
 
 Captain Up is an engagement platform for your WordPress blog. Quickly add badges, levels and leaderboards to your site and start rewarding your users.
 
+![Captain Up - Engagement Platform as a Service](https://captainup.com/assets/help/nodejs/node-js-readme.png)
+
+---
+
+[Captain Up](https://captainup.com/) ∞ [Sign Up](https://captainup.com/users/sign_up) ∞ [Download from the WordPress plugin directory](https://wordpress.org/plugins/captain-up/) ∞ [Features](https://captainup.com/features) ∞ [Pricing](https://captainup.com/pricing) ∞ [Documentation and Help](https://captainup.com/docs) ∞ [WordPress help center](https://captainup.com/help/wordpress) ∞ [API Docs](https://captainup.com/help/api/reference/overview) ∞ [Client-side SDK](https://captainup.com/help/javascript/reference)
+
+---
+
+[Captain Up](https://captainup.com/) boosts engagement on your WordPress site using game mechanics. Plug it in and immediately start rewarding users for engaging with your content, using points, levels, badges, and leaderboards, and keep them coming back for more.
+
+Note: You will need to connect your WordPress site to a Captain Up account. Signing up is free, so if you don't have one yet – [sign up now](https://captainup.com/).
+
 ## Features
 
-[Captain Up](http://captainup.com/) is a User Engagement platform for your WordPress site. After a quick install your users will be able to connect with Facebook or Twitter, earn points, progress through the levels, achieve badges and compete in leaderboards.
+- **Total customization** – You can create new badges that users get by visiting specific pages or categories on your WordPress site, or for liking your Facebook page. You can fully customize all badges and levels, including how they look and what users have to do to get each one. [Learn more about customizing your Captain Up setup at the Help center](https://captainup.com/help/getting-started/overview)
 
-Captain Up helps you engage with your users. You will see more likes, more tweets, more comments and more repeated visits to your site. You can learn more about your users and see who is passionate about your site and who has the most influence in social networks.
+- **Works out of the box** – With dozens of badges and levels, Captain Up gives your users a challenging gaming layer with a balanced learning curve, right away.
 
-You will need to associate your WordPress site with a free Captain Up account. If you don't have one yet - [sign up now](http://captainup.com/).
+- **Deep insights and statistics** – Get to know your most passionate users. See who has the most Twitter followers and who brought you the most visitors. Understand how users are engaging with your WordPress site and how to improve your users' experience. [Learn more about user insights and community management at the Help center.](https://captainup.com/help/getting-started/users)
 
-- **Completely Customizable Experience** - You can create new badges that can be achieved by visiting specific pages or categories on your WordPress site, or for liking your Facebook page. The appearance and conditions of each badge and level is completely customizable.
+- **Widgets!** – The Activity Widget shows recent activity on your site, bringing together and showcasing your vibrant community. The Leaderboard Widget gets users competing and comparing their progress against one another.
 
-- **Works out of the Box** - With over 70 different badges and 30 levels we give your users a challenging game experience while keeping the learning curve small and keeping them entertained.
+- **Tons of actions** – You can reward users for visiting your site regularly, Tweeting about it, Liking things, visiting specific pages, commenting, or watching videos on your site. Set up [custom actions](https://captainup.com/help/getting-started/custom-actions-tutorial) for anything our default actions don’t cover yet.
 
-- **Deep Insights and Statistics** - Get to know your most passionate users. See who has the most followers on Twitter and who brought the most visitors to your site. Understand how users are engaging with your WordPress site and how to improve your game.
+**Premium features**:
 
-- **Widgets!** - The Activity Widget shows all the recent activities on your site and brings a sense of vibrancy, action and community to your WordPress site. The Leaderboard Widget will drive users to compete and compare with one another.
+- **Automatic support for WordPress User Integration**
+- **Deep analytics on user behavior**
+- **In-app messages and notifications**
+- **Custom theme & design**
 
-- **Viral Actions** - Players can get more points for having a large followers base on Twitter or a lot of Friends on Facebook. Badges and Levels can be shared easily with a link to your WordPress site. When other people visit your site from the players links the players get even more points!
-
-- **Tons of Actions** - Players can earn points for visiting your site consistently, for visiting specific pages on your site, for commenting or liking on Facebook or Tweeting about you or even watching videos on your site.
+For more info about our packages refer to our [Pricing Page](https://captainup.com/pricing).
 
 
 ### Installing the Plugin
 
-For detailed install instructions with screenshots visit [Captain Up Wordpress Help Center](http://captainup.com/help/wordpress).
+For detailed install instructions with screenshots visit [Captain Up WordPress Help Center](https://captainup.com/help/wordpress).
 
 ###### Automatic Install through WordPress
 
@@ -59,25 +72,13 @@ For detailed install instructions with screenshots visit [Captain Up Wordpress H
 
 1. Go to the new _Captain Up_ tab in your WordPress Admin Panel.
 
-2. Add your Captain Up API Key and Save. You can find your API key in the [Settings tab in your Captain Up Admin Panel](http://captainup.com/manage#settings). If you don't have a Captain Up account yet you just need to [sign up](http://captainup.com/).
+2. Add your Captain Up API Key and Save. You can find your API key in the [Settings tab in your Captain Up Admin Panel](https://captainup.com/manage/settings). If you don't have a Captain Up account yet you just need to [sign up](https://captainup.com/).
 
-Check out the [Captain Up Wordpress Help Center](http://captainup.com/help/wordpress) for more information.
+Check out the [Captain Up WordPress Help Center](https://captainup.com/help/wordpress) for more information.
 
-## Frequently Asked Questions
+## I have more questions!
 
-###### Do I need to create an account?
-Yes. In order for the plugin to work you need to [sign up to Captain Up](http://captainup.com/). It's completely free.
-
-###### Is JavaScript required?
-Yes. Captain Up will not work if JavaScript is disabled.
-
-###### Does Captain Up work on mobile and tablet versions of my site?
-
-Yes. When users visit your site from mobile and tablet devices they will see Captain Up in a in a device-optimized version.
-
-###### I got more Questions!
-
-For more information visit the [Captain Up Wordpress Help Center](http://captainup.com/help/wordpress) or [contact us](mailto:team@captainup.com).
+For more information visit the [Captain Up Help Center](https://captainup.com/help/) and check out [the FAQs](https://captainup.com/help/faq). [Feel free to contact us with any question](https://captainup.com/help/contact-us).
 
 ## Shortcodes
 
@@ -89,11 +90,16 @@ You can add the Captain Up leaderboard widget or activity widget inside your pos
 
 * `[captain-sign-up text="Join the Game"]` - adds a link to join the Captain Up game. It will open the sign up modal, incentivizing your users to start playing. By default the text of the link will be "Sign Up Now".
 
-## Contributing Code
+## Contributing code
 
 The source code for this plugin is available on [Captain Up's GitHub account](https://github.com/CaptainUp/wordpress-captainup). Pull Requests and issues are welcome.
 
 ## Changelog
+
+###### 2.1.0
+
+* Automatic user integration with WordPress user accounts
+* Support for WordPress 4.1
 
 ###### 2.0.2
 
@@ -182,3 +188,4 @@ The source code for this plugin is available on [Captain Up's GitHub account](ht
 
 ###### 1.0
 * First Release.
+
