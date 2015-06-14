@@ -60,7 +60,7 @@
 			// Send an HTTP request to retrieve the app data
 			$data = wp_remote_retrieve_body(wp_remote_get($api_endpoint));
 			# Return the JSON decoded data, or false if the request failed.
-			return data ? json_decode($data) : false;
+			return $data ? json_decode($data) : false;
 		}
 
 		// Returns a boolean indicating whether the app passed in `app_data` is on
@@ -97,8 +97,8 @@
 		public static function sign_user($secret, $user) {
 			// Remove all `null`, `undefined`, arrays and objects from the object
 			foreach($user as $key => $value) {
-				if(empty($value) || $value == '') {
-				unset($user[$key]);
+				if(is_null($value)) {
+					unset($user[$key]);
 				}
 			}
 			// Sort the array alphabetically by the key names
@@ -112,7 +112,7 @@
 			$signed_user = implode("&", $signed_user);
 			// Sign the serialized object with SHA-512 in lowercase hexadecimal digits
 			$signed_user = hash_hmac('sha512', $signed_user, $secret);
-			// Encode it as Base64
+			// Encode it as base 64
 			$signed_user = base64_encode($signed_user);
 			// remove new lines and and the '=' part at the end, and return
 			return preg_replace('/(\n|=+\n?$)/', '', $signed_user);

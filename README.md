@@ -96,6 +96,11 @@ The source code for this plugin is available on [Captain Up's GitHub account](ht
 
 ## Changelog
 
+###### 2.2.0
+
+* Support for WordPress 4.2.2
+* Fixed issue when updating blank user attributes with secure user integration
+
 ###### 2.1.0
 
 * Automatic user integration with WordPress user accounts
